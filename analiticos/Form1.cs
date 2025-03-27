@@ -218,7 +218,9 @@ namespace analiticos
                             switch (tipo)
                             {
                                 case "date":
-                                    input = new DateTimePicker() { Width = 220 };
+                                    input = new DateTimePicker() { Width = 220 ,
+                                                                   Value = DateTime.Now.AddDays(1) 
+                                                                 };
                                     break;
                                 case "string":
                                     input = new TextBox { Width = 150 };

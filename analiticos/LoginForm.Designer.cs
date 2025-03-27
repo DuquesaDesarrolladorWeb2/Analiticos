@@ -33,7 +33,7 @@
             txtUsername.BorderStyle = BorderStyle.FixedSingle;
             txtUsername.Font = new Font("Arial", 12F);
             txtUsername.ForeColor = Color.Black;
-            txtUsername.Location = new Point(141, 50);
+            txtUsername.Location = new Point(219, 53);
             txtUsername.Name = "txtUsername";
             txtUsername.Size = new Size(200, 26);
             txtUsername.TabIndex = 0;
@@ -45,7 +45,7 @@
             txtPassword.BorderStyle = BorderStyle.FixedSingle;
             txtPassword.Font = new Font("Arial", 12F);
             txtPassword.ForeColor = Color.Black;
-            txtPassword.Location = new Point(141, 100);
+            txtPassword.Location = new Point(219, 103);
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '●';
             txtPassword.Size = new Size(200, 26);
@@ -59,7 +59,7 @@
             btnLogin.FlatStyle = FlatStyle.Flat;
             btnLogin.Font = new Font("Arial", 12F, FontStyle.Bold);
             btnLogin.ForeColor = Color.White;
-            btnLogin.Location = new Point(141, 150);
+            btnLogin.Location = new Point(219, 153);
             btnLogin.Name = "btnLogin";
             btnLogin.Size = new Size(200, 31);
             btnLogin.TabIndex = 2;
@@ -71,7 +71,7 @@
             // 
             lblUsuario.Font = new Font("Arial", 12F, FontStyle.Bold);
             lblUsuario.ForeColor = Color.Black;
-            lblUsuario.Location = new Point(30, 50);
+            lblUsuario.Location = new Point(68, 53);
             lblUsuario.Name = "lblUsuario";
             lblUsuario.Size = new Size(70, 30);
             lblUsuario.TabIndex = 3;
@@ -81,7 +81,7 @@
             // 
             lblContraseña.Font = new Font("Arial", 12F, FontStyle.Bold);
             lblContraseña.ForeColor = Color.Black;
-            lblContraseña.Location = new Point(30, 100);
+            lblContraseña.Location = new Point(68, 103);
             lblContraseña.Name = "lblContraseña";
             lblContraseña.Size = new Size(100, 30);
             lblContraseña.TabIndex = 4;
@@ -90,7 +90,7 @@
             // LoginForm
             // 
             BackColor = Color.White;
-            ClientSize = new Size(391, 220);
+            ClientSize = new Size(575, 220);
             Controls.Add(txtUsername);
             Controls.Add(txtPassword);
             Controls.Add(btnLogin);

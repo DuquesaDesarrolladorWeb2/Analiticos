@@ -209,7 +209,17 @@ namespace analiticos
                                     input = new DateTimePicker()
                                     {
                                         Width = 220,
-                                        Value = DateTime.Today.AddDays(1)
+                                        Value = DateTime.Now.AddDays(1)
+                                    };
+                                    break;
+                                case "datetime":
+                                    input = new DateTimePicker()
+                                    {
+                                        Width = 220,
+                                        Format = DateTimePickerFormat.Custom,
+                                        CustomFormat = "dddd, dd 'de' MMMM 'de' yyyy HH:mm:ss",
+                                        ShowUpDown = false, 
+                                        Value = DateTime.Now.AddDays(1)
                                     };
                                     break;
                                 case "string":
@@ -224,6 +234,43 @@ namespace analiticos
                                 default:
                                     input = new TextBox { Width = 150 };
                                     break;
+                                case "dropdown":
+                                    input = new ComboBox
+                                    {
+                                        Width = 200,
+                                        DropDownStyle = ComboBoxStyle.DropDownList
+                                    };
+
+                                    List<KeyValuePair<int, string>> items = new List<KeyValuePair<int, string>>();
+
+                                    using (SqlConnection conn = new SqlConnection(connectionString))
+                                    {
+                                        conn.Open();
+                                        string queryS = "SELECT NOMBRE, VALOR FROM DropdownValues WHERE IDFUNCION = @TipoId";
+
+                                        using (SqlCommand cmdS = new SqlCommand(queryS, conn))
+                                        {
+                                            cmdS.Parameters.AddWithValue("@TipoId", idFuncion);
+                                            using (SqlDataReader readers = cmdS.ExecuteReader())
+                                            {
+                                                while (readers.Read())
+                                                {
+                                                    string nombres = readers["NOMBRE"] != DBNull.Value ? readers["NOMBRE"].ToString() : "";
+                                                    string valor = readers["VALOR"] != DBNull.Value && !string.IsNullOrEmpty(readers["VALOR"].ToString())
+                                                                    ? readers["VALOR"].ToString()
+                                                                    : "";
+
+                                                    ((ComboBox)input).Items.Add(new KeyValuePair<string, string>(valor, nombres));
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    ((ComboBox)input).DisplayMember = "Value"; 
+                                    ((ComboBox)input).ValueMember = "Key";
+
+                                    break;
+
                             }
 
                             if (input != null)
@@ -283,9 +330,16 @@ namespace analiticos
                             valor = dateTimePicker.Value;
                         }
                     }
-                    else if (inputControl is CheckBox checkBox)
+                    else if (inputControl is ComboBox comboBox)
                     {
-                        valor = checkBox.Checked;
+                        if (comboBox.SelectedItem is KeyValuePair<string, string> selectedItem)
+                        {
+                            valor = selectedItem.Key; // Obtiene el valor correcto
+                        }
+                        else
+                        {
+                            valor = comboBox.SelectedValue; // Alternativa si se usa BindingSource
+                        }
                     }
 
                     parametros.Add(nombreParametro, valor);
@@ -365,7 +419,6 @@ namespace analiticos
 
                             if (valor is DateTime dateValue)
                             {
-                                // Si la hora es 00:00:00, convertirlo en solo fecha (DATE)
                                 if (dateValue.TimeOfDay == TimeSpan.Zero)
                                 {
                                     string fechaFormateada = ((DateTime)param.Value).ToString("yyyyMMdd");
@@ -387,7 +440,6 @@ namespace analiticos
                         DataTable dt = new DataTable();
                         dt.Load(reader);
 
-                        // **Agregar la columna de numeración antes de mostrar resultados**
                         DataTable dtNumerado = AgregarColumnaNumeracion(dt);
                         MostrarResultados(dtNumerado);
 
